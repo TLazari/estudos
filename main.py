@@ -3,36 +3,54 @@ import threading
 import time
 import random
 
+# Definindo o tamanho do buffer e os contadores
 buffer_size = 5
-buffer = []
+buffer = queue.Queue(buffer_size)
+contador_produtor = 5
+contador_consumidor = 5
 
+# Função do produtor
 def produtor():
-    global buffer
-    while True:
-        if len(buffer) < buffer_size:
+    global contador_produtor
+    while contador_produtor > 0:  # Continua enquanto houver itens para produzir
+        if not buffer.full():  # Verifica se o buffer tem espaço
             item = random.randint(0, 100)
-            buffer.append(item)
-            print('Produzido:', item)
-            time.sleep(1)
-        if len(buffer) == buffer_size:
-            print('Buffer cheio')
-            break
-    
+            buffer.put(item)
+            print(f"Produzido: {item}")
+            contador_produtor -= 1
+        else:
+            print("Buffer cheio")
+        time.sleep(1)
 
+# Função do consumidor
 def consumidor():
-    global buffer
-    while True:
-        if len(buffer) > 0:
-            item = buffer.pop(0)
-            print('Consumido:', item)
-            time.sleep(1)
-        if len(buffer) == 0:
-            print('Buffer vazio')
-            break
+    global contador_consumidor
+    while contador_consumidor > 0:  # Continua enquanto houver itens para consumir
+        if not buffer.empty():  # Verifica se o buffer não está vazio
+            item = buffer.get()
+            print(f"Consumido: {item}")
+            contador_consumidor -= 1
+        else:
+            print("Buffer vazio")
+        time.sleep(1)
 
+# Medindo o tempo de execução
 inicio_tempo = time.time()
-produtor()
-consumidor()
+
+# Criar threads para produtor e consumidor
+thread_produtor = threading.Thread(target=produtor)
+thread_consumidor = threading.Thread(target=consumidor)
+
+# Iniciar threads
+thread_produtor.start()
+thread_consumidor.start()
+
+# Esperar as threads terminarem
+thread_produtor.join()
+thread_consumidor.join()
+
 fim_tempo = time.time()
 tempo_execucao = fim_tempo - inicio_tempo
+
+# Resultado final
 print(f"Tempo de execução: {tempo_execucao:.2f} segundos")
