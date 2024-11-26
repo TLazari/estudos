@@ -1,5 +1,6 @@
 import threading
 import time
+import os
 
 def soma():
     resultado = int(valor1) + int(valor2)
@@ -17,6 +18,9 @@ def divisao():
     resultado = int(valor1) / int(valor2)
     print("Divisão: ", resultado)
 
+clear_prompt = print("\033[H\033[J", end='')
+
+print ("Calculadora Multithread")
 
 valor1 = input("Digite o primeiro valor: ")
 valor2 = input("Digite o segundo valor: ")

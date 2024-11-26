@@ -5,8 +5,8 @@ import random
 # Definindo o tamanho do buffer e os contadores
 buffer_size = 5
 buffer = []
-contador_produtor = 100
-contador_consumidor = 100
+contador_produtor = 10
+contador_consumidor = 10
 contador_buffer_vazio = 0
 contador_buffer_cheio = 0
 tempo = 0.2
@@ -27,7 +27,7 @@ def produtor():
             # Produzindo item
             item = random.randint(0, 100)
             buffer.append(item)
-            print(f"Produzido: {item} | Restantes a produzir: {contador_produtor} | Buffer atual: {buffer}")
+            print(f"Produzido: {item} | Contador: {contador_produtor} | Buffer atual: {buffer}")
             contador_produtor -= 1
             cond.notify_all()  # Notifica que o buffer não está vazio
         time.sleep(tempo)
@@ -43,13 +43,18 @@ def consumidor():
                 cond.wait()
             # Consumindo item
             item = buffer.pop(0)
-            print(f"Consumido: {item} | Restantes a consumir: {contador_consumidor} | Buffer atual: {buffer}")
+            print(f"Consumido: {item} | Contador: {contador_consumidor} | Buffer atual: {buffer}")
             contador_consumidor -= 1
             cond.notify_all()  # Notifica que o buffer não está cheio
         time.sleep(tempo)
 
 # Medindo o tempo de execução
 inicio_tempo = time.time()
+
+clear_prompt = print("\033[H\033[J", end='')
+
+print ("Buffer com Thread Lock")
+
 
 # Criar threads para produtor e consumidor
 thread_produtor = threading.Thread(target=produtor)

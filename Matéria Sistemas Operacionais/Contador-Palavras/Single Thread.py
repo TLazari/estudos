@@ -28,11 +28,17 @@ def contar_caracteres(parte):
 # Início da medição do tempo
 
 inicio_tempo = time.perf_counter()
+
+clear_prompt = print("\033[H\033[J", end='')
+
+print ("Contador de Palavras Single Thread")
+
 resultado = separar_palavra(texto)
 resultado_parte1 = contar_caracteres(resultado[0])
 resultado_parte2 = contar_caracteres(resultado[1])
 resultado_parte3 = contar_caracteres(resultado[2])
 resultado_total = resultado_parte1 + resultado_parte2 + resultado_parte3
+
 fim_tempo = time.perf_counter()
 
 tempo_execucao = (fim_tempo - inicio_tempo) 

@@ -25,6 +25,11 @@ def contar_caracteres(parte, resultado, index):
 # Início da medição do tempo
 inicio_tempo = time.perf_counter()
 
+clear_prompt = print("\033[H\033[J", end='')
+
+print ("Contador de Palavras Multithread")
+
+
 resultado = separar_palavra(texto)
 resultado_parte = [0, 0, 0]
 

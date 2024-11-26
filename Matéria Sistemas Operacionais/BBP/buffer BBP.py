@@ -5,8 +5,8 @@ import random
 # Definindo o tamanho do buffer e os contadores
 buffer_size = 5
 buffer = []  # Usando uma lista simples para o buffer
-contador_produtor = 100
-contador_consumidor = 100
+contador_produtor = 10
+contador_consumidor = 10
 contador_buffer_vazio = 0
 contador_buffer_cheio = 0
 tempo = 0.2
@@ -44,6 +44,11 @@ def consumidor():
 
 # Medindo o tempo de execução
 inicio_tempo = time.time()
+
+clear_prompt = print("\033[H\033[J", end='')
+
+print ("Buffer BBP")
+
 
 # Criar threads para produtor e consumidor
 thread_produtor = threading.Thread(target=produtor)
